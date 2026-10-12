@@ -23,19 +23,26 @@ function repeater(str, options) {
     additionSeparator = options.hasOwnProperty("additionSeparator")
       ? `${options.additionSeparator}`
       : "|";
-  let addit = options?.addition + additionSeparator;
+
   let part;
-  if (options.addition) {
-    part =
-      str + addit.repeat(options.additionRepeatTimes - 1) + options.addition;
+  if (options.hasOwnProperty("addition")) {
+    const addition = `${options.addition}`;
+    const addit = addition + additionSeparator;
+    const additionRepeatTimes = options.hasOwnProperty("additionRepeatTimes")
+      ? options.additionRepeatTimes
+      : 1;
+    part = `${str}` + addit.repeat(additionRepeatTimes - 1) + addition;
   } else {
-    part = str;
+    part = `${str}`;
   }
 
-  let partLine = part + separator;
-  return partLine.repeat(options.repeatTimes - 1) + part;
-}
+  const repeatTimes = options.hasOwnProperty("repeatTimes")
+    ? options.repeatTimes
+    : 1;
 
+  const partLine = part + separator;
+  return partLine.repeat(repeatTimes - 1) + part;
+}
 module.exports = {
   repeater,
 };
