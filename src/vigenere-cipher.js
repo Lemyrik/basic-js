@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../lib');
+const { NotImplementedError } = require("../lib");
 
 /**
  * Implement class VigenereCipheringMachine that allows us to create
@@ -20,14 +20,49 @@ const { NotImplementedError } = require('../lib');
  *
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  constructor(direction = true) {
+    this.direction = direction;
   }
 
-  decrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  encrypt(message, key) {
+    if (!message || !key) throw new Error("Incorrect arguments!");
+
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let res = "",
+      x = 0;
+
+    for (let i = 0; i < message.length; i++) {
+      if (message.charCodeAt(i) >= 65 && message.charCodeAt(i) <= 90) {
+        res += String.fromCharCode(
+          ((message.charCodeAt(i) + key.charCodeAt(x % key.length) - 130) %
+            26) +
+            65,
+        );
+        x++;
+      } else res += message[i];
+    }
+    return this.direction ? res : res.split("").reverse().join("");
+  }
+
+  decrypt(message, key) {
+    if (!message || !key) throw new Error("Incorrect arguments!");
+
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let res = "",
+      x = 0;
+
+    for (let i = 0; i < message.length; i++) {
+      if (message.charCodeAt(i) >= 65 && message.charCodeAt(i) <= 90) {
+        res += String.fromCharCode(
+          ((message.charCodeAt(i) + 26 - key.charCodeAt(x % key.length)) % 26) +
+            65,
+        );
+        x++;
+      } else res += message[i];
+    }
+    return this.direction ? res : res.split("").reverse().join("");
   }
 }
 
